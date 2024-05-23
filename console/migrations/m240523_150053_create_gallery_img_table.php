@@ -14,6 +14,10 @@ class m240523_150053_create_gallery_img_table extends Migration
     {
         $this->createTable('{{%gallery_img}}', [
             'id' => $this->primaryKey(),
+            'gallery_id' => $this->integer(),
+            'img' => $this->string()->notNull(),
+            'name' => $this->string(),
+            'text' => $this->string(),
             'created_at' => $this->integer()->notNull()->comment('Дата создания'),
             'updated_at' => $this->integer()->notNull()->comment('Дата изменения'),
         ]);
