@@ -1,0 +1,2 @@
+<?php
+const PROJECT_VERSION = 1715759362;
