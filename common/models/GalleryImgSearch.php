@@ -8,9 +8,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * TextSearch represents the model behind the search form of `common\models\Text`.
+ * GalleryImgSearch represents the model behind the search form of `common\models\GalleryImg`.
  */
-final class TextSearch extends Text
+final class GalleryImgSearch extends GalleryImg
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,8 @@ final class TextSearch extends Text
     public function rules(): array
     {
         return [
-            [['id', 'deletable'], 'integer'],
-            [['key', 'group', 'text', 'comment', 'created_at', 'updated_at'], 'safe']
+            [['id', 'gallery_id'], 'integer'],
+            [['img', 'name', 'text', 'created_at', 'updated_at'], 'safe']
         ];
     }
 
@@ -39,7 +39,7 @@ final class TextSearch extends Text
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Text::find();
+        $query = GalleryImg::find();
 
         // add conditions that should always apply here
 
@@ -56,13 +56,12 @@ final class TextSearch extends Text
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'deletable' => $this->deletable,
+            'gallery_id' => $this->gallery_id,
         ]);
 
-        $query->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'group', $this->group])
-            ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'comment', $this->comment]);
+        $query->andFilterWhere(['like', 'img', $this->img])
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'text', $this->text]);
 
         // date filtering helper
         SearchQueryHelper::filterDataRange(['created_at', 'updated_at'], $this, $query);

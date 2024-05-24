@@ -8,9 +8,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * TextSearch represents the model behind the search form of `common\models\Text`.
+ * DocsSearch represents the model behind the search form of `common\models\Docs`.
  */
-final class TextSearch extends Text
+final class DocsSearch extends Docs
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,8 @@ final class TextSearch extends Text
     public function rules(): array
     {
         return [
-            [['id', 'deletable'], 'integer'],
-            [['key', 'group', 'text', 'comment', 'created_at', 'updated_at'], 'safe']
+            [['id'], 'integer'],
+            [['key', 'file', 'created_at', 'updated_at'], 'safe']
         ];
     }
 
@@ -39,7 +39,7 @@ final class TextSearch extends Text
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Text::find();
+        $query = Docs::find();
 
         // add conditions that should always apply here
 
@@ -56,13 +56,10 @@ final class TextSearch extends Text
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'deletable' => $this->deletable,
         ]);
 
         $query->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'group', $this->group])
-            ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'comment', $this->comment]);
+            ->andFilterWhere(['like', 'file', $this->file]);
 
         // date filtering helper
         SearchQueryHelper::filterDataRange(['created_at', 'updated_at'], $this, $query);

@@ -25,7 +25,7 @@ $params = array_merge(
 
 return [
     'id' => ModuleHelper::ADMIN,
-    'name' => 'PROJECT NAME',
+    'name' => 'Админская панель',
     'homeUrl' => $basePath . $module,
     'basePath' => dirname(__DIR__),
     'sourceLanguage' => 'en-US',

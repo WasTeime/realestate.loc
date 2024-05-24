@@ -22,7 +22,11 @@ return [
     //General
     'Id' => 'ID',
     'Type' => 'Тип',
+    'Uid' => 'Фото комнаты',
+    'Subtitle' => 'Подзаголовок',
     'Submit' => 'Отправить',
+    'Rooms' => 'Комнаты',
+    'Gallery ID' => 'Галлерея',
     'Name' => 'Имя',
     'Browse' => 'Выбрать',
     'Content' => 'Содержание',
@@ -30,6 +34,15 @@ return [
     'Clear Filters' => 'Сбросить фильтры',
     'Delete' => 'Удалить',
     'Description' => 'Описание',
+    'Cost' => 'Цена',
+    'Floor' => 'Этаж',
+    'Square' => 'Площадь',
+    'Img' => 'Фото',
+    'Flat Img' => 'Фото квартиры',
+    'Address' => 'Адрес',
+    'Additional Name' => 'Дополнительное название',
+    'Additional Img' => 'Дополнительное фото',
+    'Access Api' => 'Флаг доступности по API',
     'Update' => 'Изменить',
     'Login' => 'Логин',
     'Save' => 'Сохранить',
@@ -57,7 +70,6 @@ return [
     'Auth Key' => 'Ключ авторизации',
     'Backup DB' => 'Резервное копирование БД',
     'Blocked At' => 'Дата блокировки',
-    'Create Text' => 'Добавить текст',
     'Create User Admin' => 'Добавить Администратора',
     'Display Name' => 'Отображаемое имя',
     'E-mail' => 'E-mail',
@@ -72,6 +84,7 @@ return [
     'First' => 'Первая',
     'File Manager' => 'Файловый менеджер',
     'Images' => 'Изображения',
+    'File' => 'Файл',
     'Files' => 'Файлы',
     'Video' => 'Видео',
     'Audio' => 'Аудио',
@@ -102,7 +115,6 @@ return [
     'Subject ID' => 'Тема',
     'Test Groups' => 'Группы текстов',
     'Text' => 'Текст',
-    'Texts' => 'Тексты',
     'The requested page does not exist.' => 'Запрашиваемая страница не существует',
     'Title' => 'Название',
     'This username has already been taken.' => 'Этот логин уже занят',
@@ -112,7 +124,6 @@ return [
     'Unable to save user: {errors}' => 'Не удалось сохранить пользователя: {errors}',
     'Unable to save {client} account: {errors}' => 'Не удалось сохранить клиент: {errors}',
     'Unconfirmed Email' => 'Неподтверждённый E-mail',
-    'Update Text: {name}' => 'Изменить текст: {name}',
     'Updated At' => 'Дата изменения',
     'User Admins' => 'Администраторы',
     'User ID' => 'Пользователь',
@@ -169,4 +180,28 @@ return [
     'Download Link' => 'Ссылка на скачивание',
     'Count' => 'Кол-во',
     'Date' => 'Дата',
+
+    //FLAT
+    'Create Flat' => 'Добавить квартиру',
+    'Update Flat: {name}' => 'Обновить квартиру: {name}',
+    'Delete Flat' => 'Удалить квартиру',
+    'Flats' => 'Квартиры',
+
+    //TEXT
+    'Create Text' => 'Добавить текст',
+    'Update Text: {name}' => 'Обновить текст: {name}',
+    'Delete Text' => 'Удалить текст',
+    'Texts' => 'Тексты',
+
+    //DOCS
+    'Create Docs' => 'Добавить документ',
+    'Update Docs: {name}' => 'Обновить документ: {name}',
+    'Delete Docs' => 'Удалить документ',
+    'Docs' => 'Документы',
+
+    //GALLERY
+    'Create Gallery' => 'Добавить галерею',
+    'Update Gallery: {name}' => 'Обновить галерею: {name}',
+    'Delete Gallery' => 'Удалить галерею',
+    'Galleries' => 'Галереи',
 ];

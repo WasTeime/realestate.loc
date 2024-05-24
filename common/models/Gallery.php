@@ -8,18 +8,14 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 
 /**
- * This is the model class for table "{{%text}}".
+ * This is the model class for table "{{%gallery}}".
  *
  * @property int         $id
- * @property string      $key
- * @property string|null $group
- * @property string      $text
- * @property string|null $comment
- * @property int|null    $deletable
+ * @property string|null $name
  * @property int         $created_at Дата создания
  * @property int         $updated_at Дата изменения
  */
-class Text extends AppActiveRecord
+class Gallery extends AppActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -38,7 +34,7 @@ class Text extends AppActiveRecord
      */
     public static function tableName(): string
     {
-        return '{{%text}}';
+        return '{{%gallery}}';
     }
 
     /**
@@ -47,10 +43,8 @@ class Text extends AppActiveRecord
     public function rules(): array
     {
         return [
-            [['key', 'text'], 'required'],
-            [['text'], 'string'],
-            [['deletable', 'created_at', 'updated_at'], 'integer'],
-            [['key', 'group', 'comment'], 'string', 'max' => 255]
+            [['created_at', 'updated_at'], 'integer'],
+            [['name'], 'string', 'max' => 255]
         ];
     }
 
@@ -61,11 +55,7 @@ class Text extends AppActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'key' => Yii::t('app', 'Key'),
-            'group' => Yii::t('app', 'Group'),
-            'text' => Yii::t('app', 'Text'),
-            'comment' => Yii::t('app', 'Comment'),
-            'deletable' => Yii::t('app', 'Deletable'),
+            'name' => Yii::t('app', 'Name'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

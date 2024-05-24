@@ -22,8 +22,8 @@ class m240523_145939_create_text_table extends Migration
             'text' => $this->text()->notNull(),
             'comment' => $this->string(),
             'deletable' => $this->boolean()->defaultValue(Boolean::No->value),
-            'created_at' => $this->integer()->notNull()->comment('Дата создания'),
-            'updated_at' => $this->integer()->notNull()->comment('Дата изменения'),
+            'created_at' => $this->integer()->notNull()->comment('Дата создания')->defaultValue(time()),
+            'updated_at' => $this->integer()->notNull()->comment('Дата изменения')->defaultValue(time()),
         ]);
 
         // Default Data

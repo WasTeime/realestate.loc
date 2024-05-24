@@ -18,7 +18,7 @@ class m240523_145856_create_flat_table extends Migration
             'subtitle' => $this->string(),
             'description' => $this->text(),
             'cost' => $this->float()->notNull(),
-            'floor' => $this->float()->notNull(),
+            'floor' => $this->integer()->notNull(),
             'flat_img' => $this->string(),
             'address' => $this->string(),
             'additional_name' => $this->string(),

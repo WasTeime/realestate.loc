@@ -4,8 +4,8 @@ namespace admin\controllers;
 
 use admin\controllers\AdminController;
 use common\components\helpers\UserUrl;
-use common\models\Text;
-use common\models\TextSearch;
+use common\models\Docs;
+use common\models\DocsSearch;
 use kartik\grid\EditableColumnAction;
 use Throwable;
 use Yii;
@@ -17,11 +17,11 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
- * TextController implements the CRUD actions for Text model.
+ * DocsController implements the CRUD actions for Docs model.
  *
  * @package admin\controllers
  */
-final class TextController extends AdminController
+final class DocsController extends AdminController
 {
     /**
      * {@inheritdoc}
@@ -40,19 +40,19 @@ final class TextController extends AdminController
     }
 
     /**
-     * Lists all Text models.
+     * Lists all Docs models.
      *
      * @throws InvalidConfigException
      */
     public function actionIndex(): string
     {
-        $model = new Text();
+        $model = new Docs();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
         }
 
-        $searchModel = new TextSearch();
+        $searchModel = new DocsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(
@@ -62,7 +62,7 @@ final class TextController extends AdminController
     }
 
     /**
-     * Displays a single Text model.
+     * Displays a single Docs model.
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -72,7 +72,7 @@ final class TextController extends AdminController
     }
 
     /**
-     * Creates a new Text model.
+     * Creates a new Docs model.
      *
      * If creation is successful, the browser will be redirected to the 'view' page.
      *
@@ -82,13 +82,13 @@ final class TextController extends AdminController
      */
     public function actionCreate(string $redirect = null): Response|string
     {
-        $model = new Text();
+        $model = new Docs();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
             return match ($redirect) {
                 'create' => $this->redirect(['create']),
-                'index' => $this->redirect(UserUrl::setFilters(TextSearch::class)),
+                'index' => $this->redirect(UserUrl::setFilters(DocsSearch::class)),
                 default => $this->redirect(['view', 'id' => $model->id])
             };
         }
@@ -97,7 +97,7 @@ final class TextController extends AdminController
     }
 
     /**
-     * Updates an existing Text model.
+     * Updates an existing Docs model.
      *
      * If update is successful, the browser will be redirected to the 'view' page.
      *
@@ -117,7 +117,7 @@ final class TextController extends AdminController
     }
 
     /**
-     * Deletes an existing Text model.
+     * Deletes an existing Docs model.
      *
      * If deletion is successful, the browser will be redirected to the 'index' page.
      *
@@ -129,19 +129,19 @@ final class TextController extends AdminController
     {
         $this->findModel($id)->delete();
         Yii::$app->session->setFlash('success', "Элемент №$id удален успешно");
-        return $this->redirect(UserUrl::setFilters(TextSearch::class));
+        return $this->redirect(UserUrl::setFilters(DocsSearch::class));
     }
 
     /**
-     * Finds the Text model based on its primary key value.
+     * Finds the Docs model based on its primary key value.
      *
      * If the model is not found, a 404 HTTP exception will be thrown.
      *
      * @throws NotFoundHttpException if the model cannot be found
      */
-    private function findModel(int $id): Text
+    private function findModel(int $id): Docs
     {
-        if (($model = Text::findOne($id)) !== null) {
+        if (($model = Docs::findOne($id)) !== null) {
             return $model;
         }
 
@@ -156,7 +156,7 @@ final class TextController extends AdminController
         return [
             'change' => [
                 'class' => EditableColumnAction::class,
-                'modelClass' => Text::class
+                'modelClass' => Docs::class
             ]
         ];
     }

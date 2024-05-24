@@ -1,5 +1,6 @@
 <?php
 
+use admin\widgets\ckfinder\CKFinderInputFile;
 use common\components\AppActiveForm;
 use kartik\icons\Icon;
 use yii\bootstrap5\Html;
@@ -7,25 +8,21 @@ use yii\helpers\Url;
 
 /**
  * @var $this     yii\web\View
- * @var $model    common\models\Text
+ * @var $model    common\models\Docs
  * @var $form     AppActiveForm
  * @var $isCreate bool
  */
 ?>
 
-<div class="text-form">
+<div class="docs-form">
 
     <?php $form = AppActiveForm::begin() ?>
 
     <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'group')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'deletable')->textInput() ?>
+    <?= $form->field($model, 'file')->widget(CKFinderInputFile::class, [
+        'resourceType' => 'Files',
+    ]) ?>
 
     <div class="form-group">
         <?php if ($isCreate) {

@@ -8,9 +8,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * TextSearch represents the model behind the search form of `common\models\Text`.
+ * FlatSearch represents the model behind the search form of `common\models\Flat`.
  */
-final class TextSearch extends Text
+final class FlatSearch extends Flat
 {
     /**
      * {@inheritdoc}
@@ -18,8 +18,9 @@ final class TextSearch extends Text
     public function rules(): array
     {
         return [
-            [['id', 'deletable'], 'integer'],
-            [['key', 'group', 'text', 'comment', 'created_at', 'updated_at'], 'safe']
+            [['id', 'access_api'], 'integer'],
+            [['title', 'subtitle', 'description', 'flat_img', 'address', 'additional_name', 'additional_img', 'created_at', 'updated_at'], 'safe'],
+            [['cost', 'floor'], 'number']
         ];
     }
 
@@ -39,7 +40,7 @@ final class TextSearch extends Text
      */
     public function search(array $params): ActiveDataProvider
     {
-        $query = Text::find();
+        $query = Flat::find();
 
         // add conditions that should always apply here
 
@@ -56,13 +57,18 @@ final class TextSearch extends Text
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'deletable' => $this->deletable,
+            'cost' => $this->cost,
+            'floor' => $this->floor,
+            'access_api' => $this->access_api,
         ]);
 
-        $query->andFilterWhere(['like', 'key', $this->key])
-            ->andFilterWhere(['like', 'group', $this->group])
-            ->andFilterWhere(['like', 'text', $this->text])
-            ->andFilterWhere(['like', 'comment', $this->comment]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'subtitle', $this->subtitle])
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'flat_img', $this->flat_img])
+            ->andFilterWhere(['like', 'address', $this->address])
+            ->andFilterWhere(['like', 'additional_name', $this->additional_name])
+            ->andFilterWhere(['like', 'additional_img', $this->additional_img]);
 
         // date filtering helper
         SearchQueryHelper::filterDataRange(['created_at', 'updated_at'], $this, $query);

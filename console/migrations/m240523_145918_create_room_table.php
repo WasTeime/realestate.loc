@@ -24,9 +24,10 @@ class m240523_145918_create_room_table extends Migration
 
         $this->addForeignKey(
             'fk-flat-room_id',
+            'room',
             'flat_id',
-            'id',
             'flat',
+            'id',
             'CASCADE'
         );
     }

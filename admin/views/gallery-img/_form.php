@@ -7,25 +7,23 @@ use yii\helpers\Url;
 
 /**
  * @var $this     yii\web\View
- * @var $model    common\models\Text
+ * @var $model    common\models\GalleryImg
  * @var $form     AppActiveForm
  * @var $isCreate bool
  */
 ?>
 
-<div class="text-form">
+<div class="gallery-img-form">
 
     <?php $form = AppActiveForm::begin() ?>
 
-    <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'gallery_id')->textInput() ?>
 
-    <?= $form->field($model, 'group')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'img')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'deletable')->textInput() ?>
+    <?= $form->field($model, 'text')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?php if ($isCreate) {

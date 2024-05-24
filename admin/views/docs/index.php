@@ -10,22 +10,22 @@ use yii\widgets\ListView;
 
 /**
  * @var $this         yii\web\View
- * @var $searchModel  common\models\TextSearch
+ * @var $searchModel  common\models\DocsSearch
  * @var $dataProvider yii\data\ActiveDataProvider
- * @var $model        common\models\Text
+ * @var $model        common\models\Docs
  */
 
-$this->title = Yii::t('app', 'Texts');
+$this->title = Yii::t('app', 'Docs');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="text-index">
+<div class="docs-index">
 
     <h1><?= RbacHtml::encode($this->title) ?></h1>
 
     <div>
-        <?= 
-            RbacHtml::a(Yii::t('app', 'Create Text'), ['create'], ['class' => 'btn btn-success']);
-//           $this->render('_create_modal', ['model' => $model]);
+        <?=
+//            RbacHtml::a(Yii::t('app', 'Create Docs'), ['create'], ['class' => 'btn btn-success']);
+           $this->render('_create_modal', ['model' => $model]);
         ?>
     </div>
 
@@ -36,14 +36,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => SerialColumn::class],
 
-            Column::widget(),
+//            Column::widget(),
             Column::widget(['attr' => 'key']),
-            Column::widget(['attr' => 'group']),
-            Column::widget(['attr' => 'text', 'format' => 'ntext']),
-            Column::widget(['attr' => 'comment']),
-//            Column::widget(['attr' => 'deletable']),
-//            ColumnDate::widget(['attr' => 'created_at', 'searchModel' => $searchModel, 'editable' => false]),
-//            ColumnDate::widget(['attr' => 'updated_at', 'searchModel' => $searchModel, 'editable' => false]),
+            Column::widget(['attr' => 'file']),
+            ColumnDate::widget(['attr' => 'created_at', 'searchModel' => $searchModel, 'editable' => false]),
+            ColumnDate::widget(['attr' => 'updated_at', 'searchModel' => $searchModel, 'editable' => false]),
 
             ['class' => GroupedActionColumn::class]
         ]

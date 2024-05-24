@@ -3,22 +3,22 @@
 use admin\components\widgets\detailView\Column;
 use admin\modules\rbac\components\RbacHtml;
 use common\components\helpers\UserUrl;
-use common\models\TextSearch;
+use common\models\GallerySearch;
 use yii\widgets\DetailView;
 
 /**
  * @var $this  yii\web\View
- * @var $model common\models\Text
+ * @var $model common\models\Gallery
  */
 
-$this->title = $model->id;
+$this->title = $model->name;
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app', 'Texts'),
-    'url' => UserUrl::setFilters(TextSearch::class)
+    'label' => Yii::t('app', 'Galleries'),
+    'url' => UserUrl::setFilters(GallerySearch::class)
 ];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="text-view">
+<div class="gallery-view">
 
     <h1><?= RbacHtml::encode($this->title) ?></h1>
 
@@ -41,11 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             Column::widget(),
-            Column::widget(['attr' => 'key']),
-            Column::widget(['attr' => 'group']),
-            Column::widget(['attr' => 'text', 'format' => 'ntext']),
-            Column::widget(['attr' => 'comment']),
-            Column::widget(['attr' => 'deletable']),
+            Column::widget(['attr' => 'name']),
             Column::widget(['attr' => 'created_at', 'format' => 'datetime']),
             Column::widget(['attr' => 'updated_at', 'format' => 'datetime']),
         ]
