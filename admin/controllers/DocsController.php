@@ -44,16 +44,17 @@ final class DocsController extends AdminController
      *
      * @throws InvalidConfigException
      */
-    public function actionIndex(): string
+    public function actionIndex(): string|Response
     {
         $model = new Docs();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
-        }
-
         $searchModel = new DocsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
+            return $this->redirect(['index', 'searchModel' => $searchModel, 'dataProvider' => $dataProvider, 'model' => $model]);
+        }
 
         return $this->render(
             'index',

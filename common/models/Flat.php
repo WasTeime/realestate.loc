@@ -26,6 +26,7 @@ use yii\helpers\ArrayHelper;
  * @property int              $updated_at      Дата изменения
  *
  * @property-read Room[]      $rooms
+ * @property-read int $roomsCount
  */
 class Flat extends AppActiveRecord
 {
@@ -82,11 +83,17 @@ class Flat extends AppActiveRecord
             'access_api' => Yii::t('app', 'Access Api'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'roomsCount' => Yii::t('app', 'Rooms Count')
         ];
     }
 
     final public function getRooms(): ActiveQuery
     {
         return $this->hasMany(Room::class, ['flat_id' => 'id']);
+    }
+
+    final public function getRoomsCount()
+    {
+        return count($this->rooms);
     }
 }

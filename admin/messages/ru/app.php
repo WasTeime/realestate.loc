@@ -183,6 +183,7 @@ return [
 
     //FLAT
     'Create Flat' => 'Добавить квартиру',
+    'Rooms Count' => 'Всего комнат',
     'Update Flat: {name}' => 'Обновить квартиру: {name}',
     'Delete Flat' => 'Удалить квартиру',
     'Flats' => 'Квартиры',
@@ -192,9 +193,12 @@ return [
     'Update Text: {name}' => 'Обновить текст: {name}',
     'Delete Text' => 'Удалить текст',
     'Texts' => 'Тексты',
+    'Comment' => 'Комментарий',
+    'Deletable' => 'Можно удалить',
 
     //DOCS
     'Create Docs' => 'Добавить документ',
+    'New Docs' => 'Новый документ',
     'Update Docs: {name}' => 'Обновить документ: {name}',
     'Delete Docs' => 'Удалить документ',
     'Docs' => 'Документы',

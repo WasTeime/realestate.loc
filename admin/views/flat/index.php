@@ -47,10 +47,10 @@ $this->params['breadcrumbs'][] = $this->title;
 //            Column::widget(['attr' => 'additional_name']),
 //            Column::widget(['attr' => 'additional_img']),
             ColumnSwitch::widget(['attr' => 'access_api']),
-            [
-                'label' => 'Всего комнат',
-                'value' => fn (Flat $flat) => count($flat->rooms)
-            ],
+            Column::widget([
+                'attr' => 'roomsCount', //берётся из getRoomsCount
+                'editable' => false,
+            ]),
             ColumnDate::widget(['attr' => 'created_at', 'searchModel' => $searchModel, 'editable' => false]),
             ColumnDate::widget(['attr' => 'updated_at', 'searchModel' => $searchModel, 'editable' => false]),
 

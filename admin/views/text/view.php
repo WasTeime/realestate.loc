@@ -3,6 +3,7 @@
 use admin\components\widgets\detailView\Column;
 use admin\modules\rbac\components\RbacHtml;
 use common\components\helpers\UserUrl;
+use common\enums\Boolean;
 use common\models\TextSearch;
 use yii\widgets\DetailView;
 
@@ -24,17 +25,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= RbacHtml::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-        <?= RbacHtml::a(
-            Yii::t('app', 'Delete'),
-            ['delete', 'id' => $model->id],
-            [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                    'method' => 'post'
+        <?php
+        if ($model->deletable) {
+            echo RbacHtml::a(
+                Yii::t('app', 'Delete'),
+                ['delete', 'id' => $model->id],
+                [
+                    'class' => 'btn btn-danger',
+                    'data' => [
+                        'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
+                        'method' => 'post'
+                    ]
                 ]
-            ]
-        ) ?>
+            );
+        }?>
     </p>
 
     <?= DetailView::widget([
@@ -43,9 +47,9 @@ $this->params['breadcrumbs'][] = $this->title;
             Column::widget(),
             Column::widget(['attr' => 'key']),
             Column::widget(['attr' => 'group']),
-            Column::widget(['attr' => 'text', 'format' => 'ntext']),
+            Column::widget(['attr' => 'text', 'format' => 'html']),
             Column::widget(['attr' => 'comment']),
-            Column::widget(['attr' => 'deletable']),
+            Column::widget(['attr' => 'deletable', 'items' => Boolean::class]),
             Column::widget(['attr' => 'created_at', 'format' => 'datetime']),
             Column::widget(['attr' => 'updated_at', 'format' => 'datetime']),
         ]

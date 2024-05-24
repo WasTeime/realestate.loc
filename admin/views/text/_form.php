@@ -1,6 +1,9 @@
 <?php
 
+use admin\widgets\ckeditor\EditorClassic;
+use admin\widgets\input\YesNoSwitch;
 use common\components\AppActiveForm;
+use common\widgets\RowGroup;
 use kartik\icons\Icon;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -17,15 +20,22 @@ use yii\helpers\Url;
 
     <?php $form = AppActiveForm::begin() ?>
 
-    <?= $form->field($model, 'key')->textInput(['maxlength' => true]) ?>
+    <?=
+    RowGroup::widget([
+        'form' => $form,
+        'model' => $model,
+        'fields' => [
+            'key',
+            'group'
+        ]
+    ])
+    ?>
 
-    <?= $form->field($model, 'group')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'text')->widget(EditorClassic::class) ?>
 
-    <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
+    <?= $form->field($model, 'deletable')->widget(YesNoSwitch::class) ?>
 
     <?= $form->field($model, 'comment')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'deletable')->textInput() ?>
 
     <div class="form-group">
         <?php if ($isCreate) {

@@ -46,6 +46,10 @@ final class FlatSearch extends Flat
 
         $dataProvider = new ActiveDataProvider(['query' => $query]);
 
+//        $dataProvider->sort['roomsCount'] = [
+//            'asc' => ['COUNT'],
+//            'desc' => ['COUNT']
+//        ];
         $this->load($params);
 
         if (!$this->validate()) {
@@ -60,6 +64,7 @@ final class FlatSearch extends Flat
             'cost' => $this->cost,
             'floor' => $this->floor,
             'access_api' => $this->access_api,
+//            'COUNT(*)' => $this->roomsCount
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
