@@ -208,4 +208,6 @@ return [
     'Update Gallery: {name}' => 'Обновить галерею: {name}',
     'Delete Gallery' => 'Удалить галерею',
     'Galleries' => 'Галереи',
+    'Gallery Images' => 'Фото галлереи',
+    'Count Images' => 'Кол-во фото',
 ];

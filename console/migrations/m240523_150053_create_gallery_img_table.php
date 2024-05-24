@@ -21,6 +21,15 @@ class m240523_150053_create_gallery_img_table extends Migration
             'created_at' => $this->integer()->notNull()->comment('Дата создания'),
             'updated_at' => $this->integer()->notNull()->comment('Дата изменения'),
         ]);
+
+        $this->addForeignKey(
+            'fk-gallery_img-gallery_id',
+            'gallery_img',
+            'gallery_id',
+            'gallery',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -28,6 +37,8 @@ class m240523_150053_create_gallery_img_table extends Migration
      */
     final public function safeDown()
     {
+        $this->dropForeignKey('fk-gallery_img-gallery_id', 'gallery_img');
+
         $this->dropTable('{{%gallery_img}}');
     }
 }

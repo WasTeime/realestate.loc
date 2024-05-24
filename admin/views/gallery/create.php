@@ -7,6 +7,7 @@ use yii\bootstrap5\Html;
 /**
  * @var $this  yii\web\View
  * @var $model common\models\Gallery
+ * @var $galleryImgs common\models\GalleryImg[]
  */
 
 $this->title = Yii::t('app', 'Create Gallery');
@@ -20,6 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?= $this->render('_form', ['model' => $model, 'isCreate' => true]) ?>
+    <?= $this->render('_form', ['model' => $model, 'galleryImgs' => $galleryImgs, 'isCreate' => true]) ?>
 
 </div>

@@ -5,12 +5,15 @@ namespace admin\controllers;
 use admin\controllers\AdminController;
 use common\components\helpers\UserUrl;
 use common\models\Gallery;
+use common\models\GalleryImg;
 use common\models\GallerySearch;
+use Exception;
 use kartik\grid\EditableColumnAction;
 use Throwable;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\StaleObjectException;
+use yii\db\Transaction;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -44,7 +47,7 @@ final class GalleryController extends AdminController
      *
      * @throws InvalidConfigException
      */
-    public function actionIndex(): string
+    public function actionIndex(): string|Response
     {
         $model = new Gallery();
 
@@ -72,6 +75,24 @@ final class GalleryController extends AdminController
     }
 
     /**
+     * @param GalleryImg[] $subModels
+     */
+    private function _setParentId(
+        array $subModels,
+        Gallery $gallery,
+        Transaction $transaction,
+        bool &$flag
+    ): void {
+        foreach ($subModels as $subModel) {
+            $subModel->gallery_id = $gallery->id;
+            if (!($flag = $subModel->save(false))) {
+                $transaction->rollBack();
+                break;
+            }
+        }
+    }
+
+    /**
      * Creates a new Gallery model.
      *
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -83,17 +104,36 @@ final class GalleryController extends AdminController
     public function actionCreate(string $redirect = null): Response|string
     {
         $model = new Gallery();
+        $galleryImgs = [new GalleryImg()];
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
-            return match ($redirect) {
-                'create' => $this->redirect(['create']),
-                'index' => $this->redirect(UserUrl::setFilters(GallerySearch::class)),
-                default => $this->redirect(['view', 'id' => $model->id])
-            };
+        if ($model->load(Yii::$app->request->post())) {
+            $galleryImgs = GalleryImg::createMultiple();
+            GalleryImg::loadMultiple($galleryImgs, Yii::$app->request->post());
+
+            $valid = $model->validate() && GalleryImg::validateMultiple($galleryImgs);
+
+            if ($valid && $transaction = Yii::$app->db->beginTransaction()) {
+                try {
+                    if ($flag = $model->save(false)) {
+                        $this->_setParentId($galleryImgs, $model, $transaction, $flag);
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
+                        return match ($redirect) {
+                            'create' => $this->redirect(['create']),
+                            'index' => $this->redirect(UserUrl::setFilters(GallerySearch::class)),
+                            default => $this->redirect(['view', 'id' => $model->id])
+                        };
+                    }
+                } catch (Exception $exception) {
+                    Yii::$app->session->addFlash('error', $exception->getMessage());
+                    $transaction->rollBack();
+                }
+            }
         }
 
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', ['model' => $model, 'galleryImgs' => $galleryImgs]);
     }
 
     /**
@@ -107,13 +147,36 @@ final class GalleryController extends AdminController
     public function actionUpdate(int $id): Response|string
     {
         $model = $this->findModel($id);
+        $galleryImgs = $model->images;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', "Элемент №$model->id изменен успешно");
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $oldGalleryImgsIDs = ArrayHelper::map($galleryImgs, 'id', 'id');
+            $galleryImgs = GalleryImg::createMultiple($galleryImgs);
+            GalleryImg::loadMultiple($galleryImgs, Yii::$app->request->post());
+            $deletedAnswerIDs = array_diff($oldGalleryImgsIDs, array_filter(ArrayHelper::map($galleryImgs, 'id', 'id')));
+
+            $valid = $model->validate() && GalleryImg::validateMultiple($galleryImgs);
+            if ($valid && $transaction = Yii::$app->db->beginTransaction()) {
+                try {
+                    if ($flag = $model->save(false)) {
+                        if (!empty($deletedAnswerIDs)) {
+                            GalleryImg::deleteAll(['id' => $deletedAnswerIDs]);
+                        }
+                        $this->_setParentId($galleryImgs, $model, $transaction, $flag);
+                    }
+                    if ($flag) {
+                        $transaction->commit();
+                        Yii::$app->session->setFlash('success', "Элемент №$model->id изменен успешно");
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } catch (Exception $exception) {
+                    Yii::$app->session->addFlash('error', $exception->getMessage());
+                    $transaction->rollBack();
+                }
+            }
         }
 
-        return $this->render('update', ['model' => $model]);
+        return $this->render('update', ['model' => $model, 'galleryImgs' => $galleryImgs]);
     }
 
     /**

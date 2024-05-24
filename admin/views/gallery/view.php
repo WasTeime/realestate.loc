@@ -42,6 +42,11 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             Column::widget(),
             Column::widget(['attr' => 'name']),
+            [
+                'label' => 'Фото галлереи',
+                'format' => 'html',
+                'value' => $model->gallery,
+            ],
             Column::widget(['attr' => 'created_at', 'format' => 'datetime']),
             Column::widget(['attr' => 'updated_at', 'format' => 'datetime']),
         ]

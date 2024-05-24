@@ -55,7 +55,7 @@ if (!Yii::$app->user->isGuest) {
                     'url' => UserUrl::setFilters(TextSearch::class, ['/text/index'])
                 ],
                 [
-                    'label' => Icon::show('align-justify') . 'Галлерея',
+                    'label' => Icon::show('align-justify') . 'Галерея',
                     'url' => UserUrl::setFilters(TextSearch::class, ['/gallery/index'])
                 ],
             ]

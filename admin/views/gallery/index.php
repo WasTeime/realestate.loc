@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= RbacHtml::encode($this->title) ?></h1>
 
     <div>
-        <?= 
+        <?=
             RbacHtml::a(Yii::t('app', 'Create Gallery'), ['create'], ['class' => 'btn btn-success']);
 //           $this->render('_create_modal', ['model' => $model]);
         ?>
@@ -36,8 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => SerialColumn::class],
 
-            Column::widget(),
+//            Column::widget(),
             Column::widget(['attr' => 'name']),
+            Column::widget(['attr' => 'countImages', 'editable' => false]),
             ColumnDate::widget(['attr' => 'created_at', 'searchModel' => $searchModel, 'editable' => false]),
             ColumnDate::widget(['attr' => 'updated_at', 'searchModel' => $searchModel, 'editable' => false]),
 

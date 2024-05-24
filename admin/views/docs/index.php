@@ -24,7 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div>
         <?=
-//            RbacHtml::a(Yii::t('app', 'Create Docs'), ['create'], ['class' => 'btn btn-success']);
            $this->render('_create_modal', ['model' => $model]);
         ?>
     </div>

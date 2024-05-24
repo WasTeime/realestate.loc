@@ -5,18 +5,21 @@ namespace common\models;
 use common\models\AppActiveRecord;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveQuery;
 use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%gallery_img}}".
  *
- * @property int         $id
- * @property int|null    $gallery_id
- * @property string      $img
- * @property string|null $name
- * @property string|null $text
- * @property int         $created_at Дата создания
- * @property int         $updated_at Дата изменения
+ * @property int              $id
+ * @property int|null         $gallery_id
+ * @property string           $img
+ * @property string|null      $name
+ * @property string|null      $text
+ * @property int              $created_at Дата создания
+ * @property int              $updated_at Дата изменения
+ *
+ * @property-read Gallery     $gallery
  */
 class GalleryImg extends AppActiveRecord
 {
@@ -48,7 +51,8 @@ class GalleryImg extends AppActiveRecord
         return [
             [['gallery_id', 'created_at', 'updated_at'], 'integer'],
             [['img'], 'required'],
-            [['img', 'name', 'text'], 'string', 'max' => 255]
+            [['img', 'name', 'text'], 'string', 'max' => 255],
+            [['gallery_id'], 'exist', 'skipOnError' => true, 'targetClass' => Gallery::class, 'targetAttribute' => ['gallery_id' => 'id']]
         ];
     }
 
@@ -66,5 +70,10 @@ class GalleryImg extends AppActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    final public function getGallery(): ActiveQuery
+    {
+        return $this->hasOne(Gallery::class, ['id' => 'gallery_id']);
     }
 }
