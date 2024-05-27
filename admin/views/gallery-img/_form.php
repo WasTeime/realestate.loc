@@ -1,5 +1,6 @@
 <?php
 
+use admin\widgets\ckfinder\CKFinderInputFile;
 use common\components\AppActiveForm;
 use kartik\icons\Icon;
 use yii\bootstrap5\Html;
@@ -17,9 +18,9 @@ use yii\helpers\Url;
 
     <?php $form = AppActiveForm::begin() ?>
 
-    <?= $form->field($model, 'gallery_id')->textInput() ?>
+    <?= $form->field($model, 'gallery_id')->hiddenInput(['value' => $model->gallery_id])->label(false) ?>
 
-    <?= $form->field($model, 'img')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'img')->widget(CKFinderInputFile::class, []) ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

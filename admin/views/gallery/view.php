@@ -3,6 +3,7 @@
 use admin\components\widgets\detailView\Column;
 use admin\modules\rbac\components\RbacHtml;
 use common\components\helpers\UserUrl;
+use common\models\GalleryImgSearch;
 use common\models\GallerySearch;
 use yii\widgets\DetailView;
 
@@ -35,6 +36,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
             ]
         ) ?>
+        <?= RbacHtml::a(
+            Yii::t('app', 'Images'),
+            UserUrl::setFilters(
+                GalleryImgSearch::class,
+                ['/gallery-img/index', 'GalleryImgSearch' => ['gallery_id' => $model->id]]),
+            [
+                'class' => 'btn btn-warning',
+            ]
+        )
+        ?>
     </p>
 
     <?= DetailView::widget([
@@ -45,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Фото галлереи',
                 'format' => 'html',
-                'value' => $model->gallery,
+                'value' => $model->galleryImages,
             ],
             Column::widget(['attr' => 'created_at', 'format' => 'datetime']),
             Column::widget(['attr' => 'updated_at', 'format' => 'datetime']),

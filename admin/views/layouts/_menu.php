@@ -5,13 +5,14 @@ use admin\models\UserAdminSearch;
 use admin\modules\modelExportImport\models\ModelImportLogSearch;
 use admin\modules\rbac\components\RbacNav;
 use common\components\helpers\UserUrl;
-use common\models\{ExportListSearch, TextSearch};
+use common\models\{DocsSearch, ExportListSearch, FlatSearch, Gallery, GalleryImgSearch, GallerySearch, TextSearch};
 use common\modules\log\Log;
 use common\modules\mail\models\{MailingLogSearch, MailingSearch, MailTemplateSearch};
 use common\modules\notification\widgets\NotificationBell;
 use common\modules\user\models\UserSearch;
 use kartik\icons\Icon;
 use yii\bootstrap5\{Html, NavBar};
+use yii\helpers\ArrayHelper;
 use yii\web\View;
 
 /**
@@ -44,24 +45,30 @@ if (!Yii::$app->user->isGuest) {
             'items' => [
                 [
                     'label' => Icon::show('align-justify') . 'Квартиры',
-                    'url' => UserUrl::setFilters(TextSearch::class, ['/flat/index'])
+                    'url' => UserUrl::setFilters(FlatSearch::class, ['/flat/index'])
                 ],
                 [
                     'label' => Icon::show('align-justify') . 'Документы',
-                    'url' => UserUrl::setFilters(TextSearch::class, ['/docs/index'])
+                    'url' => UserUrl::setFilters(DocsSearch::class, ['/docs/index'])
                 ],
                 [
                     'label' => Icon::show('align-justify') . 'Тексты',
                     'url' => UserUrl::setFilters(TextSearch::class, ['/text/index'])
                 ],
                 [
-                    'label' => Icon::show('align-justify') . 'Галерея',
-                    'url' => UserUrl::setFilters(TextSearch::class, ['/gallery/index'])
+                    'label' => 'Галереи',
+                    'url' => UserUrl::setFilters(GallerySearch::class, ['/gallery/index']),
                 ],
             ]
         ],
         ['label' => Icon::show('folder') . 'Файловый менеджер', 'url' => ['/site/file-manager']],
     ];
+    foreach (Gallery::find()->select(['id', 'name'])->indexBy('id')->all() as $gallery) {
+        $menuItems[0]['items'][] = [
+            'label' => Icon::show('align-justify') . $gallery->name,
+            'url' => UserUrl::setFilters(GalleryImgSearch::class, ['/gallery-img/index', 'GalleryImgSearch' => ['gallery_id' => $gallery->id]])
+        ];
+    }
     $menuItems[] = Html::tag('div', null, ['class' => 'divider-vertical']);
     $menuItems[] = Html::tag('div', null, ['class' => 'dropdown-divider']);
     if (Yii::$app->getModule('notification')) {

@@ -19,7 +19,7 @@ use yii\helpers\Html;
  *
  * @property-read GalleryImg[] $images
  * @property-read int $countImages
- * @property-read string $gallery
+ * @property-read string $galleryImages
  */
 class Gallery extends AppActiveRecord
 {
@@ -80,7 +80,7 @@ class Gallery extends AppActiveRecord
         return count($this->images);
     }
 
-    final public function getGallery(): string
+    final public function getGalleryImages(): string
     {
         $galleryImages = '';
         foreach ($this->images as $key => $img) {

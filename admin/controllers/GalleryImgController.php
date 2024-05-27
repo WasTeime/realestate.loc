@@ -4,6 +4,7 @@ namespace admin\controllers;
 
 use admin\controllers\AdminController;
 use common\components\helpers\UserUrl;
+use common\models\Gallery;
 use common\models\GalleryImg;
 use common\models\GalleryImgSearch;
 use kartik\grid\EditableColumnAction;
@@ -83,6 +84,8 @@ final class GalleryImgController extends AdminController
     public function actionCreate(string $redirect = null): Response|string
     {
         $model = new GalleryImg();
+        $model->gallery_id = Yii::$app->request->get('gallery_id');
+        $gallery_name = Gallery::find()->select(['name'])->where(['id' => $model->gallery_id])->one();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', "Элемент №$model->id создан успешно");
@@ -93,7 +96,7 @@ final class GalleryImgController extends AdminController
             };
         }
 
-        return $this->render('create', ['model' => $model]);
+        return $this->render('create', ['model' => $model, 'gallery_name' => $gallery_name->name]);
     }
 
     /**

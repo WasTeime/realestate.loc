@@ -1,9 +1,12 @@
 <?php
 
 use admin\components\widgets\detailView\Column;
+use admin\components\widgets\gridView\ColumnImage;
 use admin\modules\rbac\components\RbacHtml;
 use common\components\helpers\UserUrl;
 use common\models\GalleryImgSearch;
+use common\models\GallerySearch;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /**
@@ -12,6 +15,11 @@ use yii\widgets\DetailView;
  */
 
 $this->title = $model->name;
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'Galleries'),
+    'url' => UserUrl::setFilters(GallerySearch::class, ['/gallery/index'])
+];
+$this->params['breadcrumbs'][] = ['label' => $model->gallery->name, 'url' => ['/gallery/view', 'id' => $model->gallery->id]];
 $this->params['breadcrumbs'][] = [
     'label' => Yii::t('app', 'Gallery Imgs'),
     'url' => UserUrl::setFilters(GalleryImgSearch::class)
@@ -42,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             Column::widget(),
             Column::widget(['attr' => 'gallery_id']),
-            Column::widget(['attr' => 'img']),
+            ColumnImage::widget(['attr' => 'img']),
             Column::widget(['attr' => 'name']),
             Column::widget(['attr' => 'text']),
             Column::widget(['attr' => 'created_at', 'format' => 'datetime']),

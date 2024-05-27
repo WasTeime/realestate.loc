@@ -26,7 +26,7 @@ return [
     'Subtitle' => 'Подзаголовок',
     'Submit' => 'Отправить',
     'Rooms' => 'Комнаты',
-    'Gallery ID' => 'Галлерея',
+    'Gallery ID' => 'Галерея',
     'Name' => 'Имя',
     'Browse' => 'Выбрать',
     'Content' => 'Содержание',
@@ -210,4 +210,10 @@ return [
     'Galleries' => 'Галереи',
     'Gallery Images' => 'Фото галлереи',
     'Count Images' => 'Кол-во фото',
+
+    //GALLERY
+    'Create Gallery Img' => 'Добавить фото',
+    'Update Gallery Img: {name}' => 'Обновить фото галереи: {name}',
+    'Delete Gallery Img' => 'Удалить фото из галереи',
+    'Gallery Imgs' => 'Фотографии',
 ];

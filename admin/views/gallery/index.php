@@ -5,8 +5,12 @@ use admin\components\widgets\gridView\Column;
 use admin\components\widgets\gridView\ColumnDate;
 use admin\modules\rbac\components\RbacHtml;
 use admin\widgets\sortableGridView\SortableGridView;
+use common\components\helpers\UserUrl;
+use common\models\GalleryImgSearch;
 use kartik\grid\SerialColumn;
-use yii\widgets\ListView;
+use kartik\icons\Icon;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * @var $this         yii\web\View
@@ -25,7 +29,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div>
         <?=
             RbacHtml::a(Yii::t('app', 'Create Gallery'), ['create'], ['class' => 'btn btn-success']);
-//           $this->render('_create_modal', ['model' => $model]);
         ?>
     </div>
 
@@ -41,8 +44,21 @@ $this->params['breadcrumbs'][] = $this->title;
             Column::widget(['attr' => 'countImages', 'editable' => false]),
             ColumnDate::widget(['attr' => 'created_at', 'searchModel' => $searchModel, 'editable' => false]),
             ColumnDate::widget(['attr' => 'updated_at', 'searchModel' => $searchModel, 'editable' => false]),
-
-            ['class' => GroupedActionColumn::class]
+            [
+                'class' => GroupedActionColumn::class,
+                'template' => '{view} {images} {update} {delete}',
+                'buttons' => [
+                    'images' => function ($url, $model, $key) {
+                        return Html::a(
+                            Icon::show('list'),
+                            UserUrl::setFilters(
+                                GalleryImgSearch::class,
+                                ['/gallery-img/index', 'GalleryImgSearch' => ['gallery_id' => $model->id]]),
+                            ['data-pjax' => '0']
+                        );
+                    }
+                ],
+            ]
         ]
     ]) ?>
 </div>
