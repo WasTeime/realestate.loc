@@ -3,6 +3,9 @@
 namespace common\models;
 
 use common\models\AppActiveRecord;
+use OpenApi\Attributes\Items;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\Schema;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
@@ -21,6 +24,11 @@ use yii\helpers\Html;
  * @property-read int $countImages
  * @property-read string $galleryImages
  */
+#[Schema(properties: [
+    new Property(property: 'id', type: 'integer'),
+    new Property(property: 'name', type: 'string'),
+    new Property(property: 'images', type: 'array', items: new Items(ref: '#/components/schemas/GalleryImg')),
+])]
 class Gallery extends AppActiveRecord
 {
     /**
@@ -67,6 +75,17 @@ class Gallery extends AppActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
 
             'countImages' => Yii::t('app', 'Count Images'),
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'name',
+            'created_at',
+            'updated_at',
+            'images',
         ];
     }
 

@@ -3,6 +3,8 @@
 namespace common\models;
 
 use common\models\AppActiveRecord;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\Schema;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
@@ -19,6 +21,16 @@ use yii\helpers\ArrayHelper;
  * @property int         $created_at Дата создания
  * @property int         $updated_at Дата изменения
  */
+#[Schema(properties: [
+    new Property(property: 'id', type: 'integer'),
+    new Property(property: 'key', type: 'string'),
+    new Property(property: 'group', type: 'string'),
+    new Property(property: 'text', type: 'string'),
+    new Property(property: 'comment', type: 'string'),
+    new Property(property: 'deletable', type: 'integer'),
+    new Property(property: 'created_at', type: 'integer'),
+    new Property(property: 'updated_at', type: 'integer'),
+])]
 class Text extends AppActiveRecord
 {
     /**
@@ -68,6 +80,20 @@ class Text extends AppActiveRecord
             'deletable' => Yii::t('app', 'Deletable'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'key',
+            'group',
+            'text',
+            'comment',
+            'deletable',
+            'created_at',
+            'updated_at',
         ];
     }
 }

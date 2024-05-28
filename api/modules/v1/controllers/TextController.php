@@ -34,7 +34,7 @@ final class TextController extends AppController
     #[OA\Get(
         path: '/text/index',
         operationId: 'text-index',
-        description: 'Возвращает полный список текстов',
+        description: 'Возвращает список текстов',
         summary: 'Список текстов',
         security: [['bearerAuth' => []]],
         tags: ['text']

@@ -61,12 +61,76 @@ if (!Yii::$app->user->isGuest) {
                 ],
             ]
         ],
-        ['label' => Icon::show('folder') . 'Файловый менеджер', 'url' => ['/site/file-manager']],
+        [
+            'label' => Icon::show('cogs') . 'Управление',
+            'items' => [
+                [
+                    'label' => Icon::show('list-ul') . 'Лог изменений',
+                    'url' => UserUrl::setFilters(Log::class, ['/log/main/index']),
+                    'visible' => ($logModule->enabled && $logModule->visible)
+                ], //Включить в common\config\main.php
+                [
+                    'label' => Icon::show('boxes') . 'Резервное копирование БД',
+                    'url' => ['/backup/default/index'],
+                    'visible' => (bool)Yii::$app->getModule('backup')
+                ],
+                [
+                    'label' => Icon::show('wrench') . 'Настройки',
+                    'url' => ['/setting/index']
+                ],
+                [
+                    'label' => Icon::show('user-shield') . 'Администраторы',
+                    'url' => UserUrl::setFilters(UserAdminSearch::class, ['/user-admin/index'])
+                ],
+                '<hr>',
+                [
+                    'label' => Icon::show('envelope-open') . 'Шаблоны почты',
+                    'url' => UserUrl::setFilters(
+                        MailTemplateSearch::class,
+                        ['/mail/mail-template/index']
+                    ),
+                    'visible' => (bool)Yii::$app->getModule('mail')
+                ],
+                [
+                    'label' => Icon::show('mail-bulk') . 'Почтовые рассылки',
+                    'url' => UserUrl::setFilters(MailingSearch::class, ['/mail/mailing/index']),
+                    'visible' => (bool)Yii::$app->getModule('mail')
+                ],
+                [
+                    'label' => Icon::show('inbox') . 'Лог отправки писем',
+                    'url' => UserUrl::setFilters(MailingLogSearch::class, ['/mail/mailing-log/index']),
+                    'visible' => (bool)Yii::$app->getModule('mail')
+                ],
+                [
+                    'label' => Icon::show('file-import') . 'Перенос контента на удаленный сервер',
+                    'url' => ['/model-export-import/default/index'],
+                    'visible' => (bool)Yii::$app->getModule('model-export-import')?->isExportEnabled
+                ],
+                [
+                    'label' => Icon::show('file-import') . 'Лог импорта данных моделей',
+                    'url' => UserUrl::setFilters(
+                        ModelImportLogSearch::class,
+                        ['/model-export-import/model-import-log/index']
+                    ),
+                    'visible' => (bool)Yii::$app->getModule('model-export-import')
+                ],
+                [
+                    'label' => Icon::show('file-download') . Yii::t('app', 'Export Lists'),
+                    'url' => UserUrl::setFilters(
+                        ExportListSearch::class,
+                        ['/export-list/index']
+                    )
+                ],
+                ['label' => Icon::show('folder') . 'Файловый менеджер', 'url' => ['/site/file-manager']],
+                ['label' => Icon::show('info') . 'Информация о хостинге', 'url' => ['/site/info']]
+            ]
+        ],
     ];
-    foreach (Gallery::find()->select(['id', 'name'])->indexBy('id')->all() as $gallery) {
+    /** @var Gallery $gallery */
+    foreach (Gallery::find()->select(['id', 'name'])->indexBy('id')->each() as $gallery) {
         $menuItems[0]['items'][] = [
             'label' => Icon::show('align-justify') . $gallery->name,
-            'url' => UserUrl::setFilters(GalleryImgSearch::class, ['/gallery-img/index', 'GalleryImgSearch' => ['gallery_id' => $gallery->id]])
+            'url' => UserUrl::setFilters(GalleryImgSearch::class, ['/gallery-img/index', 'gallery_id' => $gallery->id])
         ];
     }
     $menuItems[] = Html::tag('div', null, ['class' => 'divider-vertical']);

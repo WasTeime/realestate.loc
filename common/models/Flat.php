@@ -3,6 +3,9 @@
 namespace common\models;
 
 use common\models\AppActiveRecord;
+use OpenApi\Attributes\Items;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\Schema;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
@@ -28,6 +31,22 @@ use yii\helpers\ArrayHelper;
  * @property-read Room[]      $rooms
  * @property-read int $roomsCount
  */
+#[Schema(properties: [
+    new Property(property: 'id', type: 'integer'),
+    new Property(property: 'title', type: 'string'),
+    new Property(property: 'subtitle', type: 'string'),
+    new Property(property: 'description', type: 'string'),
+    new Property(property: 'cost', type: 'float'),
+    new Property(property: 'floor', type: 'integer'),
+    new Property(property: 'flat_img', type: 'string'),
+    new Property(property: 'address', type: 'string'),
+    new Property(property: 'additional_name', type: 'string'),
+    new Property(property: 'additional_img', type: 'string'),
+    new Property(property: 'access_api', type: 'integer'),
+    new Property(property: 'created_at', type: 'integer'),
+    new Property(property: 'updated_at', type: 'integer'),
+    new Property(property: 'rooms', type: 'array', items: new Items(ref: '#/components/schemas/Room')),
+])]
 class Flat extends AppActiveRecord
 {
     /**
@@ -84,6 +103,26 @@ class Flat extends AppActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'roomsCount' => Yii::t('app', 'Rooms Count')
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'title',
+            'subtitle',
+            'description',
+            'cost',
+            'floor',
+            'flat_img',
+            'address',
+            'additional_name',
+            'additional_img',
+            'access_api',
+            'created_at',
+            'updated_at',
+            'rooms',
         ];
     }
 

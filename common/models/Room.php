@@ -3,6 +3,8 @@
 namespace common\models;
 
 use common\models\AppActiveRecord;
+use OpenApi\Attributes\Property;
+use OpenApi\Attributes\Schema;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
@@ -21,6 +23,14 @@ use yii\helpers\ArrayHelper;
  *
  * @property-read Flat        $flat
  */
+#[Schema(properties: [
+    new Property(property: 'id', type: 'integer'),
+    new Property(property: 'name', type: 'string'),
+    new Property(property: 'square', type: 'float'),
+    new Property(property: 'uid', type: 'string'),
+    new Property(property: 'created_at', type: 'integer'),
+    new Property(property: 'updated_at', type: 'integer'),
+])]
 class Room extends AppActiveRecord
 {
     /**
@@ -72,6 +82,19 @@ class Room extends AppActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'name',
+            'square',
+            'uid',
+            'created_at',
+            'updated_at',
+        ];
+    }
+
     final public function getFlat(): ActiveQuery
     {
         return $this->hasOne(Flat::class, ['id' => 'flat_id']);

@@ -45,7 +45,7 @@ final class GalleryImgController extends AdminController
      *
      * @throws InvalidConfigException
      */
-    public function actionIndex(): string
+    public function actionIndex(int $gallery_id = null): string
     {
         $model = new GalleryImg();
 
@@ -54,6 +54,7 @@ final class GalleryImgController extends AdminController
         }
 
         $searchModel = new GalleryImgSearch();
+        $searchModel->gallery_id = $gallery_id;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render(

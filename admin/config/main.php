@@ -119,7 +119,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'export/download/<filename:[\d\w\._-]+>' => 'export/download'
+                'export/download/<filename:[\d\w\._-]+>' => 'export/download',
+                'gallery-img/<gallery_id:[\d]+>' => 'gallery-img/index'
             ]
         ]
     ],
