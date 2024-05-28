@@ -216,4 +216,11 @@ return [
     'Update Gallery Img: {name}' => 'Обновить фото галереи: {name}',
     'Delete Gallery Img' => 'Удалить фото из галереи',
     'Gallery Imgs' => 'Фотографии',
+
+    //PROMOCODE
+    'Create Promocode' => 'Добавить промокод',
+    'Update Promocode: {name}' => 'Изменить промокод: {name}',
+    'Delete Promocode' => 'Удалить промокод',
+    'Promo' => 'Промокод',
+    'Promocodes' => 'Промокоды'
 ];
