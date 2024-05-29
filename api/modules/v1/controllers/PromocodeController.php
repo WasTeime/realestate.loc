@@ -2,10 +2,12 @@
 
 namespace api\modules\v1\controllers;
 
+use api\behaviors\returnStatusBehavior\JsonError;
 use api\behaviors\returnStatusBehavior\JsonSuccess;
 use common\models\Promocode;
 use common\modules\user\enums\Status;
 use common\modules\user\models\User;
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use OpenApi\Attributes as OA;
@@ -16,14 +18,6 @@ class PromocodeController extends AppController
      * {@inheritdoc}
      */
     public $modelClass = Promocode::class;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors(): array
-    {
-        return ArrayHelper::merge(parent::behaviors(), ['auth' => ['except' => ['index']]]);
-    }
 
     /**
      * Returns a list of Text's
@@ -42,21 +36,19 @@ class PromocodeController extends AppController
             items: new OA\Items('#/components/schemas/Promocode'),
         )
     ])]
-    public function actionIndex(): array
+    public function actionIndex()
     {
-        $activeUsersWithoutPromos = User::find()->where(['status' => Status::Active->value])
-            ->andWhere(['NOT IN', 'id', Promocode::find()->select(['user_id'])->distinct()])
-            ->all();
-        return $this->returnSuccess(User::find()->where(['NOT IN', User::tableName().'.id', Promocode::find()->select(['user_id'])->distinct()])->all());
-        $promocodes = Promocode::find()->where(['user_id' => null])->all();
-
-        for ($i = 0; $i < count($activeUsersWithoutPromos); $i++) {
-            $j = rand(0, count($promocodes));
-            print_r($promocodes[$j]);
-            $promocodes[$j]->user_id = $activeUsersWithoutPromos[$i]->id;
-            //$promocodes[$j]->save();
+        $user = Yii::$app->user->identity;
+        if ($promo = Promocode::find()->where(['user_id' => $user->id])->one()) {
+            return $this->returnSuccess($promo, 'promocode');
         }
-
-        return $this->returnSuccess();
+        $freePromo = Promocode::find()->where(['user_id' => null])->one();
+        if ($freePromo != null) {
+            $freePromo->user_id = $user->id;
+            $freePromo->save();
+            return $this->returnSuccess($freePromo, 'promocode');
+        } else {
+            return $this->returnError('Promocodes out', 'Все доступные промокоды закончились');
+        }
     }
 }

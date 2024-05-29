@@ -25,8 +25,6 @@ use yii\helpers\ArrayHelper;
  * @property-read User $user
  */
 #[Schema(properties: [
-    new Property(property: 'id', type: 'integer'),
-    new Property(property: 'user_id', type: 'integer'),
     new Property(property: 'promo', type: 'string'),
 ])]
 class Promocode extends AppActiveRecord implements UploadInterface
@@ -67,8 +65,6 @@ class Promocode extends AppActiveRecord implements UploadInterface
     public function fields()
     {
         return [
-          'id',
-          'user_id',
           'promo'
         ];
     }
